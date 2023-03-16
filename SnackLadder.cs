@@ -12,128 +12,130 @@ namespace SnackandLadderDay2
 
         public static void StartGame()
         {
-            int Player_Position = 0;
-            int Previous_Player_Position = 0;
-            int Next_Player_Position = 0;
-            int Start_Position = 0;
-            int End_Position = 100;
-            int RanNum;
+
+            int num;
+            int select_option;
+            int START_POSITION = 0;
+            int END_POSITION = 100;
+            int NO_PLAY_OPTION = 0;
+            int LADDER_OPTION = 1;
+            int SNAKE_OPTION = 2;
+
+            //Variables
+            int playerPosition = 0;
+            int previousPlayerPosition = 0;
+            int updatedPlayerPosition = 0;
             int countDiceRoll = 0;
+            int playerOnePosition = 0;
+            int playerTwoPosition = 0;
 
 
-
-            void RollDie()
+            void rollDice()
             {
                 countDiceRoll = (countDiceRoll + 1);
-
                 Random random = new Random();
-                RanNum = random.Next(6);
-                Choose_Option();
-
+                num = random.Next(6);
+                option();
             }
 
-            void Choose_Option()
+
+            void option()
             {
-                int Option_One_NoPlay = 0;
-                int Option_Two_Ladder = 1;
-                int Option_Three_Snake = 2;
+                Random R = new Random();
+                select_option = R.Next(3);
 
-                Random ran = new Random();
-                int Choose_Option = ran.Next(3);
-
-                if (Choose_Option == Option_One_NoPlay)
+                if (select_option == NO_PLAY_OPTION)
                 {
-                    NoPlay();
+                    noPlay();
                 }
-
-                else if (Choose_Option == Option_Two_Ladder)
+                else if (select_option == LADDER_OPTION)
                 {
-                    Ladder();
+                    ladder();
                 }
                 else
                 {
-                    Snake();
+                    snake();
                 }
             }
 
-
-
-            void NoPlay()
+            void noPlay()
             {
-                Player_Position = Previous_Player_Position;
+                playerPosition = previousPlayerPosition;
             }
 
-            void Ladder()
+            void ladder()
             {
-                Next_Player_Position = (Previous_Player_Position + RanNum);
-
-                if (Next_Player_Position > End_Position)
+                updatedPlayerPosition = (previousPlayerPosition + num);
+                if (updatedPlayerPosition > END_POSITION)
                 {
-                    Player_Position = Previous_Player_Position;
+                    playerPosition = previousPlayerPosition;
                 }
-
-                else if (Next_Player_Position == End_Position)
+                else if (updatedPlayerPosition == END_POSITION)
                 {
-                    Player_Position = End_Position;
+                    playerPosition = END_POSITION;
                 }
-
                 else
                 {
-                    Player_Position = Next_Player_Position;
-
+                    playerPosition = updatedPlayerPosition;
                 }
 
-                Previous_Player_Position = Player_Position;
-
+                previousPlayerPosition = playerPosition;
             }
 
-            void Snake()
-
+            void snake()
             {
-                Next_Player_Position = (Previous_Player_Position - RanNum);
-
-                if (Next_Player_Position < Start_Position)
+                updatedPlayerPosition = (previousPlayerPosition - num);
+                if (updatedPlayerPosition < START_POSITION)
                 {
-                    Player_Position = Start_Position;
+                    playerPosition = START_POSITION;
                 }
-
                 else
                 {
-                    Player_Position = Next_Player_Position;
+                    playerPosition = updatedPlayerPosition;
                 }
 
-                Previous_Player_Position = Player_Position;
+                previousPlayerPosition = playerPosition;
             }
 
-
-
-
-
-            while (Player_Position >= Start_Position && Player_Position < End_Position)
+            void playerOne()
             {
-                RollDie();
-
-                Console.WriteLine("Position after every Roll Dice : " + Player_Position);
-
+                rollDice();
             }
 
+            void playerTwo()
+            {
+                rollDice();
+            }
+
+            while (playerPosition >= START_POSITION && playerPosition < END_POSITION)
+            {
+                playerOne();
+                if (select_option == LADDER_OPTION)
+                {
+                    playerOne();
+                }
+                playerOnePosition = playerPosition;
+                playerPosition = playerTwoPosition;
+                Console.WriteLine("Player One,Position After Every Roll Dice :-  " + playerOnePosition);
+                if (playerOnePosition == END_POSITION)
+                {
+                    Console.WriteLine(".........*** Player One Win ***........");
+                    break;
+                }
+                playerTwo();
+                playerTwoPosition = playerPosition;
+                playerPosition = playerOnePosition;
+                Console.WriteLine("Player Two,Position After Every Roll Dice :-  " + playerTwoPosition);
+                if (playerTwoPosition == END_POSITION)
+                {
+                    Console.WriteLine(".........*** Player Two Win ***........");
+                    break;
+                }
+            }
             Console.WriteLine("Total Number Of Dice Roll :- " + countDiceRoll);
-
-
         }
-
-
-
-
     }
-
-
 }
-
-
-
-
-
 
 
 
