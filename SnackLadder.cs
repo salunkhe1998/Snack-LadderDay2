@@ -9,6 +9,7 @@ namespace SnackandLadderDay2
     public class SnakeLadder
 
     {
+
         public static void StartGame()
         {
             int Player_Position = 0;
@@ -128,6 +129,7 @@ namespace SnackandLadderDay2
 
 
 }
+
 
 
 
